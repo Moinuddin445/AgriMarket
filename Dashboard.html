@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organic Vegetables</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #4CAF50;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    header .logo h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    .search-bar input {
+      padding: 0.5rem;
+      width: 80%;
+      max-width: 400px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    /* Categories Section */
+    #categories {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .category-list {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .category-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #ddd;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .category-btn.active {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .category-btn:hover {
+      background: #45a049;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Products Section */
+    #products {
+      padding: 2rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-card h3 {
+      margin: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .product-card p {
+      margin: 0 1rem 1rem;
+      color: #777;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .product-card {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    /* Loading Spinner */
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #4CAF50;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Organic Veggies</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#categories">Categories</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search for vegetables..." oninput="filterProducts()">
+  </div>
+
+  <section id="categories">
+    <h2>Categories</h2>
+    <div class="category-list">
+      <button class="category-btn active" data-category="all">All</button>
+      <button class="category-btn" data-category="leafy">Leafy Greens</button>
+      <button class="category-btn" data-category="root">Root Vegetables</button>
+      <button class="category-btn" data-category="fruit">Fruit Vegetables</button>
+    </div>
+  </section>
+
+  <section id="products">
+    <h2>Our Products</h2>
+    <div class="loading-spinner" id="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+    <div class="product-grid" id="product-grid">
+      <!-- Products will be dynamically added here -->
+    </div>
+  </section>
+
+  <footer id="contact">
+    <p>&copy; 2023 Organic Veggies. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Sample product data
+    const products = [
+      { id: 1, name: "Spinach", category: "leafy", image: "https://via.placeholder.com/300", description: "Fresh organic spinach." },
+      { id: 2, name: "Carrot", category: "root", image: "https://via.placeholder.com/300", description: "Sweet organic carrots." },
+      { id: 3, name: "Tomato", category: "fruit", image: "https://via.placeholder.com/300", description: "Juicy organic tomatoes." },
+      { id: 4, name: "Kale", category: "leafy", image: "https://via.placeholder.com/300", description: "Nutritious organic kale." },
+      { id: 5, name: "Beetroot", category: "root", image: "https://via.placeholder.com/300", description: "Healthy organic beetroot." },
+      { id: 6, name: "Bell Pepper", category: "fruit", image: "https://via.placeholder.com/300", description: "Colorful organic bell peppers." },
+    ];
+
+    // Function to display products
+    function displayProducts(category = "all", searchQuery = "") {
+      const productGrid = document.getElementById("product-grid");
+      const loadingSpinner = document.getElementById("loading-spinner");
+
+      // Show loading spinner
+      loadingSpinner.style.display = "block";
+      productGrid.innerHTML = ""; // Clear existing products
+
+      // Simulate loading delay
+      setTimeout(() => {
+        const filteredProducts = products.filter(product => {
+          const matchesCategory = category === "all" || product.category === category;
+          const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchesCategory && matchesSearch;
+        });
+
+        filteredProducts.forEach(product => {
+          const productCard = document.createElement("div");
+          productCard.classList.add("product-card");
+
+          productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+          `;
+
+          productGrid.appendChild(productCard);
+        });
+
+        // Hide loading spinner
+        loadingSpinner.style.display = "none";
+      }, 500); // Simulate 500ms loading time
+    }
+
+    // Function to filter products based on search input
+    function filterProducts() {
+      const searchQuery = document.getElementById("search-input").value;
+      const activeCategory = document.querySelector(".category-btn.active").getAttribute("data-category");
+      displayProducts(activeCategory, searchQuery);
+    }
+
+    // Event listeners for category buttons
+    document.querySelectorAll(".category-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".category-btn").forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        const category = button.getAttribute("data-category");
+        displayProducts(category);
+      });
+    });
+
+    // Initial load
+    displayProducts();
+  </script>
+</body>
+</html>    
